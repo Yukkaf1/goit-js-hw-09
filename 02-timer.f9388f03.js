@@ -545,25 +545,8 @@ const refs = {
     sec: document.querySelector("[data-seconds]")
 };
 let timerId = null;
+let isActive = false;
 startBtn.disabled = true;
-const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose (selectedDates) {
-        console.log(selectedDates[0]);
-        console.log(new Date());
-        startBtn.disabled = false;
-        if (selectedDates[0] <= new Date()) {
-            startBtn.disabled = true;
-            alert("Please choose a date in the future");
-        }
-        selectedDates = selectedDates[0];
-    }
-};
-const flatpick = (0, _flatpickrDefault.default)("#datetime-picker", options);
-// let selectedData = null;
 function convertMs(ms) {
     const second = 1000;
     const minute = second * 60;
@@ -580,30 +563,44 @@ function convertMs(ms) {
         seconds
     };
 }
-const timer = {
-    timerId: null,
-    isActive: false,
-    start () {
-        if (this.isActive) return;
-        this.isActive = true;
-        this.timerId = setInterval(()=>{
-            const today = Date.now();
-            const value = selectedData - today;
-            console.log(value);
-            const { days , hours , minutes , seconds  } = convertMs(value);
-            refs.days.textContent = addLeadingZero(days);
-            refs.hours.textContent = addLeadingZero(hours);
-            refs.min.textContent = addLeadingZero(minutes);
-            refs.sec.textContent = addLeadingZero(seconds);
-            if (value <= 1000) this.stop(this.timerId);
-        }, 1000);
-    },
-    stop () {
-        clearInterval(this.timerId);
+const addLeadingZero = (value)=>String(value).padStart(2, 0);
+const options = {
+    enableTime: true,
+    time_24hr: true,
+    defaultDate: new Date(),
+    minuteIncrement: 1,
+    onClose (selectedDates) {
+        console.log(selectedDates[0]);
+        console.log(new Date());
+        startBtn.disabled = false;
+        if (selectedDates[0] <= new Date()) {
+            startBtn.disabled = true;
+            alert("Please choose a date in the future");
+        }
+        selectedDates = selectedDates[0];
+        const timer = ()=>{
+            if (isActive) return;
+            isActive = true;
+            timerId = setInterval(()=>{
+                const today = Date.now();
+                const value = selectedDates - today;
+                console.log(value);
+                const { days , hours , minutes , seconds  } = convertMs(value);
+                refs.days.textContent = addLeadingZero(days);
+                refs.hours.textContent = addLeadingZero(hours);
+                refs.min.textContent = addLeadingZero(minutes);
+                refs.sec.textContent = addLeadingZero(seconds);
+                if (value <= 86350000) {
+                    clearInterval(timerId);
+                    console.log("the end");
+                }
+                startBtn.disabled = true;
+            }, 1000);
+        };
+        startBtn.addEventListener("click", ()=>timer());
     }
 };
-const addLeadingZero = (value)=>String(value).padStart(2, 0);
-startBtn.addEventListener("click", ()=>timer.start());
+const flatpick = (0, _flatpickrDefault.default)("#datetime-picker", options);
 
 },{"flatpickr":"llQu5","flatpickr/dist/flatpickr.min.css":"eVN6V","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"llQu5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
