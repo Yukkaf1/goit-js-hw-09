@@ -12,8 +12,26 @@ sec: document.querySelector('[data-seconds]'),
 }
 
 let timerId = null;
-
+let isActive = false;
 startBtn.disabled = true;
+
+function convertMs(ms) {
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+
+
+    const days = Math.floor(ms / day);
+    const hours = Math.floor((ms % day) / hour);
+    const minutes = Math.floor(((ms % day) % hour) / minute);
+    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+
+    return { days, hours, minutes, seconds };
+};
+
+const addLeadingZero = value => String(value).padStart(2, 0);
 
 const options = {
     enableTime: true,
@@ -32,41 +50,16 @@ const options = {
           alert('Please choose a date in the future');
       }
 
-    selectedDates = selectedDates[0];
-    },
-  };
+selectedDates = selectedDates[0]
 
-const flatpick = flatpickr('#datetime-picker', options)
-// let selectedData = null;
-
-function convertMs(ms) {
-    const second = 1000;
-    const minute = second * 60;
-    const hour = minute * 60;
-    const day = hour * 24;
-
-
-    const days = Math.floor(ms / day);
-    const hours = Math.floor((ms % day) / hour);
-    const minutes = Math.floor(((ms % day) % hour) / minute);
-    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-
-    return { days, hours, minutes, seconds };
-}
-
-
-const timer = {
-    timerId: null,
-    isActive: false, 
-    start () {
-            if (this.isActive) {
+const timer = () => {
+            if (isActive) {
                 return;
             }
-            this.isActive=true;
-            this.timerId = setInterval(() => {
+            isActive  = true;
+            timerId = setInterval(() => {
                 const today = Date.now();
-                const value = selectedData - today;
+                const value = selectedDates - today;
                 console.log(value);
               
                 const { days, hours, minutes, seconds } = convertMs(value);
@@ -76,18 +69,17 @@ const timer = {
                 refs.min.textContent = addLeadingZero(minutes);
                 refs.sec.textContent = addLeadingZero(seconds);
                 
-            if (value <= 1000) {
-                this.stop(this.timerId);
+            if (value <= 86350000) {
+                clearInterval(timerId);
+                console.log("the end");
             }
+            startBtn.disabled = true;
             }, 1000);
 
-        },
+        }
 
-    stop () {
-        clearInterval(this.timerId);
-    }
-};
+startBtn.addEventListener('click', () => timer());
+}};
 
-const addLeadingZero = value => String(value).padStart(2, 0);
-
-startBtn.addEventListener('click', () => timer.start())
+const flatpick = flatpickr('#datetime-picker', options);
+        
