@@ -71,7 +71,7 @@ const timer = () => {
                 refs.min.textContent = addLeadingZero(minutes);
                 refs.sec.textContent = addLeadingZero(seconds);
                 
-            if (value <= 86350000) { //86350000
+            if (value <= 1000) { //86350000
                 clearInterval(timerId);
                 // console.log("the end");
                 startBtn.disabled = false;
