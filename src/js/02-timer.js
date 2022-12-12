@@ -11,8 +11,7 @@ min: document.querySelector('[data-minutes]'),
 sec: document.querySelector('[data-seconds]'),
 }
 
-let timerId = null;
-let isActive = false;
+
 startBtn.disabled = true;
 
 function convertMs(ms) {
@@ -39,8 +38,8 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-      console.log(selectedDates[0]);
-      console.log(new Date());
+    //   console.log(selectedDates[0]);
+    //   console.log(new Date());
    
       startBtn.disabled = false;
 
@@ -51,8 +50,11 @@ const options = {
       }
 
 selectedDates = selectedDates[0]
+let timerId = null;
+let isActive = false;
 
 const timer = () => {
+
             if (isActive) {
                 return;
             }
@@ -60,7 +62,7 @@ const timer = () => {
             timerId = setInterval(() => {
                 const today = Date.now();
                 const value = selectedDates - today;
-                console.log(value);
+                // console.log(value);
               
                 const { days, hours, minutes, seconds } = convertMs(value);
                 
@@ -69,9 +71,10 @@ const timer = () => {
                 refs.min.textContent = addLeadingZero(minutes);
                 refs.sec.textContent = addLeadingZero(seconds);
                 
-            if (value <= 86350000) {
+            if (value <= 86350000) { //86350000
                 clearInterval(timerId);
-                console.log("the end");
+                // console.log("the end");
+                startBtn.disabled = false;
             }
             startBtn.disabled = true;
             }, 1000);
