@@ -590,7 +590,7 @@ const options = {
                 refs.hours.textContent = addLeadingZero(hours);
                 refs.min.textContent = addLeadingZero(minutes);
                 refs.sec.textContent = addLeadingZero(seconds);
-                if (value <= 86350000) {
+                if (value <= 1000) {
                     clearInterval(timerId);
                     // console.log("the end");
                     startBtn.disabled = false;

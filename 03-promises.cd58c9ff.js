@@ -562,9 +562,9 @@ const onForm = (e)=>{
     for(let i = 1; i <= userAmount; i++){
         //   console.log('цикл')
         createPromise(i, userDelay).then(({ position , delay  })=>{
-            console.log(`Fulfilled promise ${position} in ${delay}ms`);
+            console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
         }).catch(({ position , delay  })=>{
-            console.log(`Rejected promise ${position} in ${delay}ms`);
+            console.log(`❌ Rejected promise ${position} in ${delay}ms`);
         });
         userDelay += userStep;
     }
