@@ -544,8 +544,6 @@ const refs = {
     min: document.querySelector("[data-minutes]"),
     sec: document.querySelector("[data-seconds]")
 };
-let timerId = null;
-let isActive = false;
 startBtn.disabled = true;
 function convertMs(ms) {
     const second = 1000;
@@ -570,21 +568,23 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose (selectedDates) {
-        console.log(selectedDates[0]);
-        console.log(new Date());
+        //   console.log(selectedDates[0]);
+        //   console.log(new Date());
         startBtn.disabled = false;
         if (selectedDates[0] <= new Date()) {
             startBtn.disabled = true;
             alert("Please choose a date in the future");
         }
         selectedDates = selectedDates[0];
+        let timerId = null;
+        let isActive = false;
         const timer = ()=>{
             if (isActive) return;
             isActive = true;
             timerId = setInterval(()=>{
                 const today = Date.now();
                 const value = selectedDates - today;
-                console.log(value);
+                // console.log(value);
                 const { days , hours , minutes , seconds  } = convertMs(value);
                 refs.days.textContent = addLeadingZero(days);
                 refs.hours.textContent = addLeadingZero(hours);
@@ -592,7 +592,8 @@ const options = {
                 refs.sec.textContent = addLeadingZero(seconds);
                 if (value <= 86350000) {
                     clearInterval(timerId);
-                    console.log("the end");
+                    // console.log("the end");
+                    startBtn.disabled = false;
                 }
                 startBtn.disabled = true;
             }, 1000);
