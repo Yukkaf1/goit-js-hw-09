@@ -1,5 +1,5 @@
 {
-  "name": "js-hw-009",
+  "name": "js-hw-09",
   "version": "1.0.0",
   "description": "",
   "source": "src/index.html",
@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "parcel src/index.html",
     "start": "parcel",
-    "build": "parcel build src/index.html --public-url /goit-js-hw-09/",
+    "build": "parcel build src/index.html --public-url ./",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
