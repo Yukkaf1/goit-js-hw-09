@@ -565,6 +565,6 @@ refs.stopBtn.addEventListener("click", ()=>{
     timer.stop();
 });
 
-},{}]},["eFy9v","cYUEh"], "cYUEh", "parcelRequirea498")
+},{}]},["eFy9v","cYUEh"], "cYUEh", "parcelRequire95a2")
 
 //# sourceMappingURL=01-color-switcher.52e3b619.js.map

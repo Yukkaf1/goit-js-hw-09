@@ -533,6 +533,6 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"4M6V8":[function(require,module,exports) {
 
-},{}]},["lX4BT","4M6V8"], "4M6V8", "parcelRequirea498")
+},{}]},["lX4BT","4M6V8"], "4M6V8", "parcelRequire95a2")
 
 //# sourceMappingURL=goit-js-hw-09.59712999.js.map
